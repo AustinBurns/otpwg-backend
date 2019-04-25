@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    container_name: otpwg-web
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 8080:8080
+    links:
+      - mongo
+    environment:
+      NODE_ENV: production
+      MONGO_URL: mongodb://mongo:27017/web
+    command: ['npm', 'start']
+  mongo:
+    container_name: otpwg-mongo
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
